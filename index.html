@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ValidaFood</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="bg bg2"></div>
+  <div class="bg bg3"></div>
+
+  <form id="formulario">
+    <h2>ValidaFood</h2>
+    <input type="text" name="nome" placeholder="Nome" required />
+    <input type="email" name="email" placeholder="E-mail" required />
+    <input type="text" name="produto" placeholder="Produto" required />
+    <input type="date" name="validade" placeholder="Validade" required />
+    <select name="dias" required>
+      <option value="" disabled selected>Dias antes do aviso</option>
+      <option value="1 dia">1 dia</option>
+      <option value="2 dias">2 dias</option>
+      <option value="3 dias">3 dias</option>
+      <option value="5 dias">5 dias</option>
+      <option value="7 dias">7 dias</option>
+    </select>
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <script>
+    document.getElementById('formulario').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const actionURL = 'https://docs.google.com/forms/d/e/1FAIpQLScEf0YCYHabe5uwEPjrhZ8OIdX2x139Q09v0WyKFpRSfa24mA/formResponse';
+
+      formData.append('entry.868325143', this.nome.value);
+      formData.append('entry.981100744', this.email.value);
+      formData.append('entry.1243743435', this.produto.value);
+      formData.append('entry.611960108', this.validade.value);
+      formData.append('entry.77713114', this.dias.value);
+
+      fetch(actionURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+      })
+      .then(() => alert('Dados enviados com sucesso!'))
+      .catch((e) => console.error('Erro ao enviar:', e));
+    });
+  </script>
+</body>
+</html>

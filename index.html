@@ -13,18 +13,50 @@
 
   <form id="formulario">
     <h2>ValidaFood</h2>
-    <input type="text" name="nome" placeholder="Nome" required />
-    <input type="email" name="email" placeholder="E-mail" required />
-    <input type="text" name="produto" placeholder="Produto" required />
-    <input type="date" name="validade" placeholder="Validade" required />
-    <select name="dias" required>
-      <option value="" disabled selected>Dias antes do aviso</option>
-      <option value="1 dia">1 dia</option>
-      <option value="2 dias">2 dias</option>
-      <option value="3 dias">3 dias</option>
-      <option value="5 dias">5 dias</option>
-      <option value="7 dias">7 dias</option>
-    </select>
+
+    <div class="field">
+      <label for="nome">Nome</label>
+      <div class="control">
+        <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="email">E-mail</label>
+      <div class="control">
+        <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="produto">Produto</label>
+      <div class="control">
+        <input type="text" id="produto" name="produto" placeholder="Nome do produto" required />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="validade">Validade do produto</label>
+      <div class="control">
+        <input type="date" id="validade" name="validade" required />
+      </div>
+    </div>
+
+
+    <div class="field">
+      <label for="dias">Dias antes do aviso</label>
+      <div class="control">
+        <select id="dias" name="dias" required>
+          <option value="" disabled selected>Selecione...</option>
+          <option value="1 dia">1 dia</option>
+          <option value="2 dias">2 dias</option>
+          <option value="3 dias">3 dias</option>
+          <option value="5 dias">5 dias</option>
+          <option value="7 dias">7 dias</option>
+        </select>
+      </div>
+    </div>
+
     <button type="submit">Cadastrar</button>
   </form>
 

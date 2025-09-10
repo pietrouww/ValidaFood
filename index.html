@@ -42,6 +42,7 @@
       </div>
     </div>
 
+
     <div class="field">
       <label for="dias">Dias antes do aviso</label>
       <div class="control">
@@ -58,15 +59,6 @@
 
     <button type="submit">Cadastrar</button>
   </form>
-
-  <!-- Popup -->
-  <div id="popup" class="popup">
-    <div class="popup-content">
-      <h2>Produto cadastrado!</h2>
-      <p>Seu produto foi cadastrado com sucesso</p>
-      <button id="fecharPopup">OK</button>
-    </div>
-  </div>
 
   <script>
     document.getElementById('formulario').addEventListener('submit', function(e) {
@@ -85,14 +77,8 @@
         mode: 'no-cors',
         body: formData
       })
-      .then(() => {
-        document.getElementById("popup").style.display = "flex";
-      })
+      .then(() => alert('Dados enviados com sucesso!'))
       .catch((e) => console.error('Erro ao enviar:', e));
-    });
-
-    document.getElementById("fecharPopup").addEventListener("click", () => {
-      document.getElementById("popup").style.display = "none";
     });
   </script>
 </body>

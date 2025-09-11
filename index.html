@@ -7,28 +7,38 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="bg"></div>
-  <div class="bg bg2"></div>
-  <div class="bg bg3"></div>
+  <main class="container">
+    <form id="formulario" class="card" novalidate>
+      <h2 class="brand">ValidaFood</h2>
 
-  <form id="formulario" novalidate>
-    <h2>ValidaFood</h2>
+      <label for="nome">Nome</label>
+      <input id="nome"   name="nome" type="text" placeholder="Digite seu nome" required />
 
-    <input id="nome"   name="nome" type="text"     placeholder="Nome" required />
-    <input id="email"  name="email" type="email"   placeholder="E-mail" required />
-    <input id="produto" name="produto" type="text" placeholder="Produto" required />
-    <input id="validade" name="validade" type="date" placeholder="Validade" required />
-    <select id="dias" name="dias" required>
-      <option value="" disabled selected>Dias antes do aviso</option>
-      <option value="1 dia">1 dia</option>
-      <option value="2 dias">2 dias</option>
-      <option value="3 dias">3 dias</option>
-      <option value="5 dias">5 dias</option>
-      <option value="7 dias">7 dias</option>
-    </select>
+      <label for="email">E-mail</label>
+      <input id="email"  name="email" type="email" placeholder="Digite seu e-mail" required />
 
-    <button id="submitBtn" type="submit">Cadastrar</button>
-  </form>
+      <label for="produto">Produto</label>
+      <input id="produto" name="produto" type="text" placeholder="Nome do produto" required />
+
+      <label for="validade">Validade</label>
+      <div class="input-with-icon">
+        <input id="validade" name="validade" type="date" required />
+        <span class="icon-calendar" aria-hidden="true"></span>
+      </div>
+
+      <label for="dias">Dias antes do aviso</label>
+      <select id="dias" name="dias" required>
+        <option value="" disabled selected>Selecione...</option>
+        <option value="1 dia">1 dia</option>
+        <option value="2 dias">2 dias</option>
+        <option value="3 dias">3 dias</option>
+        <option value="5 dias">5 dias</option>
+        <option value="7 dias">7 dias</option>
+      </select>
+
+      <button id="submitBtn" type="submit" class="btn-submit">Cadastrar</button>
+    </form>
+  </main>
 
   <!-- POPUP -->
   <div class="popup-overlay" id="popupOverlay" aria-hidden="true">

@@ -11,74 +11,101 @@
   <div class="bg bg2"></div>
   <div class="bg bg3"></div>
 
-  <form id="formulario">
+  <form id="formulario" novalidate>
     <h2>ValidaFood</h2>
 
-    <div class="field">
-      <label for="nome">Nome</label>
-      <div class="control">
-        <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required />
-      </div>
-    </div>
+    <input id="nome"   name="nome" type="text"     placeholder="Nome" required />
+    <input id="email"  name="email" type="email"   placeholder="E-mail" required />
+    <input id="produto" name="produto" type="text" placeholder="Produto" required />
+    <input id="validade" name="validade" type="date" placeholder="Validade" required />
+    <select id="dias" name="dias" required>
+      <option value="" disabled selected>Dias antes do aviso</option>
+      <option value="1 dia">1 dia</option>
+      <option value="2 dias">2 dias</option>
+      <option value="3 dias">3 dias</option>
+      <option value="5 dias">5 dias</option>
+      <option value="7 dias">7 dias</option>
+    </select>
 
-    <div class="field">
-      <label for="email">E-mail</label>
-      <div class="control">
-        <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required />
-      </div>
-    </div>
-
-    <div class="field">
-      <label for="produto">Produto</label>
-      <div class="control">
-        <input type="text" id="produto" name="produto" placeholder="Nome do produto" required />
-      </div>
-    </div>
-
-    <div class="field">
-      <label for="validade">Validade do produto</label>
-      <div class="control">
-        <input type="date" id="validade" name="validade" required />
-      </div>
-    </div>
-
-
-    <div class="field">
-      <label for="dias">Dias antes do aviso</label>
-      <div class="control">
-        <select id="dias" name="dias" required>
-          <option value="" disabled selected>Selecione...</option>
-          <option value="1 dia">1 dia</option>
-          <option value="2 dias">2 dias</option>
-          <option value="3 dias">3 dias</option>
-          <option value="5 dias">5 dias</option>
-          <option value="7 dias">7 dias</option>
-        </select>
-      </div>
-    </div>
-
-    <button type="submit">Cadastrar</button>
+    <button id="submitBtn" type="submit">Cadastrar</button>
   </form>
 
+  <!-- POPUP -->
+  <div class="popup-overlay" id="popupOverlay" aria-hidden="true">
+    <div class="popup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+      <button class="popup-close" aria-label="Fechar">&times;</button>
+      <h3 id="popupTitle">Cadastro realizado!</h3>
+      <p id="popupMsg">O seu produto foi cadastrado com sucesso!</p>
+      <div class="popup-actions">
+        <button id="popupOk" type="button">OK</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    document.getElementById('formulario').addEventListener('submit', function(e) {
+    const form = document.getElementById('formulario');
+    const submitBtn = document.getElementById('submitBtn');
+    const overlay = document.getElementById('popupOverlay');
+    const popupMsg = document.getElementById('popupMsg');
+    const popupOk = document.getElementById('popupOk');
+    const popupClose = document.querySelector('.popup-close');
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const formData = new FormData(this);
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+
+      const fd = new FormData();
+      fd.append('entry.868325143', document.getElementById('nome').value);
+      fd.append('entry.981100744', document.getElementById('email').value);
+      fd.append('entry.1243743435', document.getElementById('produto').value);
+      fd.append('entry.611960108', document.getElementById('validade').value);
+      fd.append('entry.77713114', document.getElementById('dias').value);
+
       const actionURL = 'https://docs.google.com/forms/d/e/1FAIpQLScEf0YCYHabe5uwEPjrhZ8OIdX2x139Q09v0WyKFpRSfa24mA/formResponse';
 
-      formData.append('entry.868325143', this.nome.value);
-      formData.append('entry.981100744', this.email.value);
-      formData.append('entry.1243743435', this.produto.value);
-      formData.append('entry.611960108', this.validade.value);
-      formData.append('entry.77713114', this.dias.value);
+      try {
+        await fetch(actionURL, { method: 'POST', mode: 'no-cors', body: fd });
 
-      fetch(actionURL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: formData
-      })
-      .then(() => alert('Dados enviados com sucesso!'))
-      .catch((e) => console.error('Erro ao enviar:', e));
+        // mensagem fixa
+        popupMsg.textContent = "O seu produto foi cadastrado com sucesso!";
+        form.reset();
+        openPopup();
+      } catch (err) {
+        console.error('Erro ao enviar:', err);
+        popupMsg.textContent = "❌ Erro ao enviar. Veja o console para detalhes.";
+        openPopup();
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Cadastrar';
+      }
+    });
+
+    function openPopup() {
+      overlay.style.display = 'flex';
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePopup() {
+      overlay.style.display = 'none';
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    popupOk.addEventListener('click', closePopup);
+    popupClose.addEventListener('click', closePopup);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closePopup();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.style.display === 'flex') closePopup();
     });
   </script>
 </body>
